@@ -1,0 +1,267 @@
+CREATE DATABASE db_library
+
+USE db_library
+CREATE TABLE library_branch (
+	BranchID INT PRIMARY KEY IDENTITY(1,1) NOT NULL,
+	BranchName VARCHAR(20) NOT NULL,
+	Address VARCHAR(50) NOT NULL
+)
+SELECT * FROM library_branch;
+
+
+CREATE TABLE publisher (
+	PublisherName VARCHAR(30) PRIMARY KEY NOT NULL,
+	Address VARCHAR(70) NOT NULL,
+	Phone VARCHAR(15) NOT NULL
+)
+SELECT * FROM publisher;
+
+
+CREATE TABLE books (
+	BooksID INT PRIMARY KEY IDENTITY(100,1) NOT NULL,
+	Title VARCHAR(70) NOT NULL,
+	PublisherName VARCHAR(30) FOREIGN KEY REFERENCES publisher(PublisherName)
+)
+SELECT * FROM books;
+
+
+CREATE TABLE book_authors(
+	BooksID INT FOREIGN KEY REFERENCES books(BooksID),
+	AuthorName VARCHAR(70) NOT NULL
+)
+SELECT * FROM book_authors;
+
+
+CREATE TABLE book_copies(
+	BooksID INT FOREIGN KEY REFERENCES books(BooksID),
+	BranchID INT FOREIGN KEY REFERENCES library_branch(BranchID),
+	Number_Of_Copies INT NULL
+)
+SELECT * FROM book_copies;
+
+
+CREATE TABLE borrower(
+	CardNo INT PRIMARY KEY NOT NULL,
+	Name VARCHAR(20) NOT NULL,
+	Address VARCHAR(50) NOT NULL,
+	Phone VARCHAR(15) NOT NULL
+)
+SELECT * FROM borrower;
+
+
+CREATE TABLE book_loans (
+	BooksID INT FOREIGN KEY REFERENCES books(BooksID),
+	BranchID INT FOREIGN KEY REFERENCES library_branch(BranchID),
+	CardNo INT FOREIGN KEY REFERENCES borrower(CardNo) NULL,
+	DateOut DATE NULL,
+	DateDue DATE NULL
+)
+SELECT * FROM book_loans;
+
+
+INSERT INTO library_branch (BranchName, Address)
+VALUES
+	
+	('Sharpstown', '123 Main St., Hollywood, CA'), 
+	('Bendale', '1515 Danforth Road, Toronto, CA'), 
+	('Guildwood', 'Guildwood Plaza 123 Guildwood Parkway, Toronto, ca'),
+	('Evelyn Gregory', '120 Trowell Avenue, Toronto, Ca')
+;
+SELECT * FROM library_branch;
+
+
+INSERT INTO publisher (PublisherName, Address, Phone)
+VALUES
+('Anansi','128 Sterling Road,Toronto, Canada','416-363-4343'),
+	('Douglas & McIntyre', '4437 Rondeview Road, Madeira Park, BC', '800-667-2988'),
+	('Talon Books', ' 2076 Station Terminal, Vancouver, B.C.', '604-444-4889'),
+	('At Bay Press', 'RPO Tuxedo Park,Winnipeg, Manitoba, Ca', '204-489-6658'),
+	('Orca Book', '1016 Balmoral Road,Victoria, BC', '800-210-5277'),
+	('Between the Lines', '401 Richmond Street WestOn,Ca','416-535-9914'),
+	('Red Deer Press','195 Allstate Parkway,Markham ON,L3R 4T8','800-387-9776'),
+	('Penguin', '864 Odd St., Chicago, IL', '312-555-1234'),
+	('Simon & Schuster', '1928 Baker St., San Jose, CA', '408-555-0764'),
+	('Flanker Press','Station C,St. Johns, Ca','866.739.4420')
+;
+SELECT * FROM publisher;
+
+
+INSERT INTO books (Title, PublisherName)
+VALUES
+	('More InfoA Covenant of Salt', 'Talon Books'),
+	('Harry Potter', 'Penguin'),
+	('The Lost Tribe', 'Simon & Schuster'),
+	('A Newfoundland Maple', 'Flanker Press'),
+	('Noopiming' , 'Anansi'),
+	('Dont',''Anansi'),
+	('Primary Obsessions', 'Douglas & McIntyre'),
+	('A Crossing of Hearts', 'Talon Books'),
+	('Hatchling', 'At Bay Press'),
+	('Kick Start', 'Orca Book'),
+	('Being and Swine', 'Between the Lines'),
+	('The Wild Heavens', 'Douglas & McIntyre'),
+	('It’s a Mitig!', 'Douglas & McIntyre'),
+	('A Few Words Will Do', 'Talon Books'),
+	('Hate Hugs', 'At Bay Press'),
+	('Boil Line', 'Orca Book'),
+	('Beyond Guilt Trips', 'Between the Lines'),
+	('The Oppenheimer Alternative', 'Red Deer Press'),
+	('Last Words', 'Red Deer Press'),
+	('Jamie Bastedo', 'Red Deer Press')
+;
+SELECT * FROM books;
+
+
+INSERT INTO book_authors (BooksID, AuthorName)
+VALUES
+	(103, ' Martine Desjardins'),
+	(104, 'J.K. Rowling'),
+	(105, 'Edward Marriott'),
+	(106, 'Samantha Baker , Dawn Baker'),
+	(107, 'Leanne Betasamosake Simpson'),
+	(108, 'Litsa Trochatosg'),
+	(109, ' Charles Demers'),
+	(110, ' Michel Tremblay'),
+	(111, 'Kathleen Bergen'),
+	(112, 'Michele Martin Bossley'),
+	(113, 'Fahim Amir'),
+	(114, 'Sarah Louise Butler'),
+	(115, 'Bridget George'),
+	(116, 'Lionel Kearns'),
+	(117, 'Bailey Brand'),
+	(118, 'M.J. McIsaac'),
+	(119, 'Anu Taranath'),
+	(120, 'Robert J. Sawyer'),
+	(121, 'Leanne Baugh'),
+	(122, 'Jamie Bastedo')
+;
+SELECT * FROM book_authors;
+
+
+
+
+INSERT INTO book_copies (BooksID, BranchID, Number_Of_Copies)
+VALUES
+	(120, 1, 5),
+	(122, 2, 5),
+	(104, 3, 5),
+	(105, 4, 5),  
+	(111, 1, 5),
+	(121, 2, 5),
+	(110, 3, 5),
+	(111, 4, 5), 
+	(112, 1, 5),
+	(122, 2, 5),
+	(122, 3, 5),
+	(108, 4, 5), 
+	(103, 1, 5),
+	(103, 2, 5),
+	(103, 3, 5),
+	(103, 4, 5), 
+	(104, 1, 5),
+	(104, 2, 5),
+	(104, 3, 5),
+	(104, 4, 5), 
+	(105, 1, 5),
+	(105, 2, 5),
+	(105, 3, 5),
+	(105, 4, 5), 
+	(106, 1, 5),
+	(106, 2, 5),
+	(106, 3, 5),
+	(106, 4, 5), 
+	(110, 1, 5),
+	(110, 2, 5),
+	(110, 3, 5),
+	(110, 4, 5), 
+	(111, 1, 5),
+	(111, 2, 5),
+	(111, 3, 5),
+	(111, 4, 5), 
+	(113, 1, 5),
+	(113, 2, 5),
+	(113, 3, 5),
+	(113, 4, 5), 
+	(114, 1, 5),
+	(114, 2, 5),
+	(114, 3, 5),
+	(114, 4, 5), 
+	(115, 1, 5),
+	(115, 2, 5),
+	(115, 3, 5),
+	(115, 4, 5) 
+;
+SELECT * FROM book_copies;
+
+
+
+INSERT INTO borrower (CardNo, Name, Address, Phone)
+VALUES
+	
+	(1000, 'James woody', '13 Main St., Richmond Hill, Ca', '416-555-1234'),
+	(1008, 'Joe Blow', ' 1748 St. Clair Avenue West, Toronto, Ca', '888-555-1004'),
+	(1001, 'Hassan Johnny ', '234 Park Ave., San Francisco, CA', '647-512-2345'),
+	(1002, 'Dave Amin', '348 St. Clair Avenue West, Toronto, CA', '818-515-3456'),
+	(1003, 'Johnny Come-Lately', '456 Hill St., London, England', '020-555-4567'),
+	(1004, 'Nil Nilli', '567 Mtn St., NYC, NY', '212-555-5678'),
+	(1005, 'Sofia Garza', '6 Oneida St., Austin, BC', '512-555-6789'),
+	(1006, 'Melissa Moor', '71 Central St., Toronto, Ca', '612-555-7890'),
+	(1007, 'Liam Lee', '24 Baker St., San Jose, CA', '416-555-8001')
+;
+SELECT * FROM borrower;
+INSERT INTO book_loans (BooksID, BranchID, CardNo, DateOut, DateDue)
+VALUES
+	
+		(120, 1, 1007, '2020-08-02', '2020-11-02'),
+		(121, 1, 1007, '2020-08-02', '2020-11-02'),
+		(122, 1, 1007, '2020-08-02', '2020-11-02'),
+		(103, 1, 1007, '2020-08-02', '2020-11-02'),
+		(104, 1, 1007, '2020-08-02', '2020-11-02'),
+		(105, 1, 1007, '2020-08-02', '2020-11-02'), 
+		(106, 1, 1007, '2020-08-02', '2020-11-02'),
+		(107, 1, 1007, '2020-08-02', '2020-11-02'), 
+	
+
+		(111, 2, 1000, '2020-08-10', '2020-11-10'),
+		(122, 2, 1000, '2020-08-10', '2020-11-10'),
+		(113, 2, 1000, '2020-08-10', '2020-11-10'),
+		(108, 2, 1000, '2020-08-10', '2020-11-10'),
+		(109, 2, 1000, '2020-08-10', '2020-11-10'),
+		(110, 2, 1000, '2020-08-10', '2020-11-10'),
+		(121, 2, 1000, '2020-08-10', '2020-11-10'), 
+		(112, 2, 1000, '2020-08-10', '2020-11-10'), 
+	
+
+		(111, 3, 1004, '2020-08-16', '2020-11-16'),
+		(104, 3, 1004, '2020-08-16', '2020-11-16'),
+		(105, 3, 1004, '2020-08-16', '2020-11-16'),
+		(106, 3, 1004, '2020-08-16', '2020-11-16'),
+		(107, 3, 1004, '2020-08-16', '2020-11-16'),
+		(109, 3, 1004, '2020-08-16', '2020-08-16'), 
+		(113, 3, 1004, '2020-08-16', '2020-11-16'),
+		(116, 3, 1004, '2020-08-16', '2020-11-16'),
+	
+
+		(111, 4, 1001, '2020-08-20', '2020-11-20'),
+		(105, 4, 1001, '2020-08-20', '2020-11-20'),
+		(106, 4, 1001, '2020-08-20', '2020-11-20'),
+		(109, 4, 1001, '2020-08-20', '2020-11-20'),
+		(115, 4, 1001, '2020-08-20', '2020-11-20'),
+		(116, 4, 1001, '2020-08-20', '2020-11-20'),
+		(117, 4, 1001, '2020-08-20', '2020-11-20'),
+		(118, 4, 1001, '2020-08-20', '2020-11-20'), 
+		(110, 1, 1005, '2020-08-21', '2020-12-08'),
+		(113, 1, 1005, '2020-08-21', '2020-12-09'),
+		(114, 1, 1005, '2020-08-21', '2020-12-09'),
+		(115, 1, 1005, '2020-08-21', '2020-12-09'),
+		(116, 1, 1005, '2020-08-21', '2020-12-09'),
+		(117, 1, 1005, '2020-08-21', '2020-12-09'),
+		(118, 1, 1005, '2020-08-21', '2020-12-09'),
+		(119, 1, 1005, '2020-08-21', '2020-12-09'), 
+	
+
+		(122, 1, 1002, '2020-11-21', '2020-12-21') 
+	;
+	SELECT * FROM book_loans;
+
+
