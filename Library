@@ -262,5 +262,25 @@ VALUES
 
 	;
 	SELECT * FROM book_loans;
+	
+	
+	SELECT book_copies.Number_Of_Copies, books.Title, library_branch.BranchName
+FROM books
+JOIN book_copies ON book_copies.BooksID = books.BooksID
+JOIN library_branch ON library_branch.BranchID = book_copies.BranchID
+WHERE books.Title = 'The Lost Tribe'
+AND library_branch.BranchName = 'Sharpstown'
+
+
+SELECT book_copies.Number_Of_Copies, books.Title, library_branch.BranchName
+FROM books
+JOIN book_copies ON book_copies.BooksID = books.BooksID
+JOIN library_branch ON library_branch.BranchID = book_copies.BranchID
+WHERE books.Title = 'The Lost Tribe'
+
+SELECT borrower.Name
+FROM borrower
+FULL OUTER JOIN book_loans ON book_loans.CardNo = borrower.CardNo
+WHERE book_loans.CardNo IS NULL
 
 
